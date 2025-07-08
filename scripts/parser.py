@@ -3,14 +3,11 @@ from docx import Document
 from PyPDF2 import PdfReader
 import os
 
-
 def extract_text_from_file(uploaded_file):
-    # filename = next(iter(uploaded_dict))  # Get filename string
-    # content = uploaded_dict[filename]     # Get binary content
     ext = os.path.splitext(uploaded_file.name)[1].lower()
 
     if ext == '.txt':
-        return content.decode('utf-8')
+        return uploaded_file.read().decode('utf-8')
 
     elif ext == '.docx':
         doc = Document(uploaded_file)
@@ -20,7 +17,9 @@ def extract_text_from_file(uploaded_file):
         reader = PdfReader(uploaded_file)
         text = ''
         for page in reader.pages:
-            text += page.extract_text() + '\n'
+            page_text = page.extract_text()
+            if page_text:
+                text += page_text + '\n'
         return text
 
     else:
