@@ -25,7 +25,7 @@ if uploaded_file:
         temp_file.write(uploaded_file.read())
         temp_file_path = temp_file.name
 
-        text = extract_text_from_file(temp_file)
+        text = extract_text_from_file(temp_file_path)
         chunks = chunk_text(text)
         if len(chunks) < 2:
             st.warning("⚠️ The document is too short for QA.")
