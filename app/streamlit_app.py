@@ -1,6 +1,6 @@
 import streamlit as st
 import sys
-import docx
+import python-docx
 import os
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
 from parser import extract_text_from_file
