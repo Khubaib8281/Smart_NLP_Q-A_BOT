@@ -1,8 +1,8 @@
+python-docx
 streamlit
 sentence-transformers
 faiss-cpu
 PyPDF2
-python-docx
 google-generativeai
 pandas
 numpy
