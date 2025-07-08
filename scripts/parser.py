@@ -10,9 +10,8 @@ def extract_text_from_file(uploaded_file):
     filename = uploaded_file.name
     ext = os.path.splitext(filename)[1].lower()
 
-    # Read content ONCE and wrap in buffer
-    file_bytes = uploaded_file.read()
-    buffer = BytesIO(file_bytes)
+    file_bytes = uploaded_file.read()  # ✅ Read file content once
+    buffer = BytesIO(file_bytes)       # ✅ Wrap it in buffer
 
     if ext == '.txt':
         return file_bytes.decode('utf-8', errors='ignore')
