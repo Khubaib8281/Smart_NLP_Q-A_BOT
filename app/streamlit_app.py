@@ -7,7 +7,7 @@ from scripts.parser import extract_text_from_file
 from scripts.chunker import chunk_text
 from scripts.embedder import embed_text
 from scripts.vector_store import build_faiss_index
-from scripts.main import get_best_chunk
+from scripts.question_answer import get_best_chunk
 from scripts.gemini_api import generate_answer_from_chunks
 import tempfile
 
