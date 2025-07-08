@@ -21,11 +21,11 @@ uploaded_file = st.file_uploader("Upload your file", type=['txt', 'pdf', 'docx']
 
 if uploaded_file:
     with st.spinner("🔍 Processing file..."):
-        temp_file = tempfile.NamedTemporaryFile(delete=False)
-        temp_file.write(uploaded_file.read())
-        temp_file_path = temp_file.name
+        # temp_file = tempfile.NamedTemporaryFile(delete=False)
+        # temp_file.write(uploaded_file.read())
+        # temp_file_path = temp_file.name
 
-        text = extract_text_from_file(temp_file_path)
+        text = extract_text_from_file(uploaded_file)
         chunks = chunk_text(text)
         if len(chunks) < 2:
             st.warning("⚠️ The document is too short for QA.")
