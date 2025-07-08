@@ -4,15 +4,19 @@ from PyPDF2 import PdfReader
 import os
 
 def extract_text_from_file(uploaded_file):
-    file_bytes = uploaded_file.read()  # Read file once
-    ext = os.path.splitext(uploaded_file.name)[1].lower()
+    if not uploaded_file:
+        raise ValueError("No file uploaded")
+
+    # Safely extract extension
+    filename = uploaded_file.name
+    ext = os.path.splitext(filename)[1].lower()
+    file_bytes = uploaded_file.read()  # read once
 
     if ext == '.txt':
         return file_bytes.decode('utf-8')
 
     elif ext == '.docx':
-        byte_stream = BytesIO(file_bytes)
-        doc = Document(byte_stream)
+        doc = Document(BytesIO(file_bytes))
         return '\n'.join([p.text for p in doc.paragraphs])
 
     elif ext == '.pdf':
