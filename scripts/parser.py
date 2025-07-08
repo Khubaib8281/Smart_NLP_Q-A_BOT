@@ -10,7 +10,7 @@ def extract_text_from_file(uploaded_file):
         return uploaded_file.read().decode('utf-8')
 
     elif ext == '.docx':
-        doc = Document(uploaded_file)
+        doc = Document(BytesIO(uploaded_file.read()))
         return '\n'.join([p.text for p in doc.paragraphs])
 
     elif ext == '.pdf':
