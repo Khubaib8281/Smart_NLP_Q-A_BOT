@@ -1,13 +1,14 @@
 import streamlit as st
 import sys
+import docx
 import os
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
-from scripts.parser import extract_text_from_file
-from scripts.chunker import chunk_text
-from scripts.embedder import embed_text
-from scripts.vector_store import build_faiss_index
-from scripts.main import get_best_chunk
-from scripts.gemini_api import generate_answer_from_chunks
+from parser import extract_text_from_file
+from chunker import chunk_text
+from embedder import embed_text
+from vector_store import build_faiss_index
+from main import get_best_chunk
+from gemini_api import generate_answer_from_chunks
 import tempfile
 
 st.set_page_config(page_title="Smart NLP QA Bot", layout="wide")
