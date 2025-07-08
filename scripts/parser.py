@@ -4,14 +4,12 @@ from PyPDF2 import PdfReader
 import os
 
 def extract_text_from_file(uploaded_file):
-    if uploaded_file is None:
-        raise ValueError("No file uploaded.")
+    if not uploaded_file or not hasattr(uploaded_file, 'read'):
+        raise ValueError("Invalid file uploaded.")
 
-    filename = uploaded_file.name
-    ext = os.path.splitext(filename)[1].lower()
-
-    file_bytes = uploaded_file.read()  # ✅ Read file content once
-    buffer = BytesIO(file_bytes)       # ✅ Wrap it in buffer
+    file_bytes = uploaded_file.read()
+    buffer = BytesIO(file_bytes)
+    ext = os.path.splitext(uploaded_file.name)[1].lower()
 
     if ext == '.txt':
         return file_bytes.decode('utf-8', errors='ignore')
