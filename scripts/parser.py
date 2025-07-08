@@ -7,20 +7,21 @@ def extract_text_from_file(uploaded_file):
     if not uploaded_file:
         raise ValueError("No file uploaded")
 
-    # Safely extract extension
     filename = uploaded_file.name
     ext = os.path.splitext(filename)[1].lower()
-    file_bytes = uploaded_file.read()  # read once
+
+    file_content = uploaded_file.read()  # read once
+    file_buffer = BytesIO(file_content)  # wrap in BytesIO
 
     if ext == '.txt':
-        return file_bytes.decode('utf-8')
+        return file_content.decode('utf-8')
 
     elif ext == '.docx':
-        doc = Document(BytesIO(file_bytes))
+        doc = Document(file_buffer)
         return '\n'.join([p.text for p in doc.paragraphs])
 
     elif ext == '.pdf':
-        reader = PdfReader(BytesIO(file_bytes))
+        reader = PdfReader(file_buffer)
         text = ''
         for page in reader.pages:
             content = page.extract_text()
