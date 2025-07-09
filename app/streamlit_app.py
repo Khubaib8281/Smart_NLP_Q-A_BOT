@@ -104,5 +104,5 @@ if uploaded_file:
 # ---------- 🔚 Footer ----------
 st.markdown("""
     <hr>
-    <p style='text-align: center; font-size: 0.8rem; color: #888;'>Made with ❤️ by Khubaib — Powered by Gemini API + FAISS + Streamlit</p>
+    <p style='text-align: center; font-size: 0.8rem; color: #888;'>Made with ❤️ by Khubaib</p>
 """, unsafe_allow_html=True)
