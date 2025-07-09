@@ -19,43 +19,79 @@ st.set_page_config(page_title="Smart Document Q&A Assistant", page_icon="📄", 
 # ────────────────────────
 # Style fixes
 st.markdown("""
-    <style>
-        html, body {
-            font-family: 'Segoe UI', sans-serif;
-            background-color: #f5f7fa;
-        }
-        .stButton > button {
-            background-color: #0066cc;
-            color: white;
-            padding: 0.6rem 1.2rem;
-            font-weight: 600;
-            border-radius: 8px;
-            border: none;
-            transition: background-color 0.3s ease;
-        }
-        .stButton > button:hover {
-            background-color: #004d99;
-            cursor: pointer;
-        }
-        .footer {
-            text-align: center;
-            color: #999;
-            font-size: 0.85rem;
-            margin-top: 3rem;
-            padding-top: 2rem;
-            border-top: 1px solid #e6e6e6;
-        }
-        .how-it-works {
-            background-color: #e9eff6;
-            padding: 1.5rem;
-            border-radius: 10px;
-            border: 1px solid #d0d9e0;
-            color: #333;
-            font-size: 0.95rem;
-            line-height: 1.6;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.05);
-        }
-    </style>
+<style>
+/* Global Styles */
+body {
+    background-color: #f2f6fc;
+    font-family: 'Segoe UI', sans-serif;
+}
+
+/* Center the app title */
+h1 {
+    color: #1f4e79;
+    text-align: center;
+    padding-top: 1rem;
+}
+
+/* File uploader styling */
+.css-1cpxqw2 {
+    border: 2px dashed #4682b4;
+    background-color: #eaf4ff;
+    border-radius: 10px;
+    padding: 1.5rem;
+    transition: 0.3s ease-in-out;
+}
+
+.css-1cpxqw2:hover {
+    background-color: #d4eaff;
+}
+
+/* Text input styling */
+input[type="text"] {
+    border: 1px solid #4682b4;
+    border-radius: 5px;
+    padding: 0.5rem;
+}
+
+/* Answer box */
+.stSuccess {
+    background-color: #e0f3ec;
+    color: #1e4633;
+    font-weight: 500;
+    border-left: 5px solid #2e8b57;
+    padding: 1rem;
+    margin-top: 1rem;
+    border-radius: 10px;
+}
+
+/* Spinner loading color */
+.css-1y4p8pa {
+    color: #4682b4 !important;
+}
+
+/* "How it Works" Section */
+.how-it-works-section {
+    background-color: #ffffff;
+    padding: 2rem;
+    border-radius: 10px;
+    margin-top: 2rem;
+    border-left: 5px solid #1f4e79;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+}
+
+.how-it-works-section h3 {
+    color: #1f4e79;
+    font-size: 22px;
+    margin-bottom: 1rem;
+}
+
+.how-it-works-section p {
+    color: #333333;
+    line-height: 1.6;
+    font-size: 16px;
+    margin-bottom: 0.5rem;
+}
+</style>
 """, unsafe_allow_html=True)
 
 # Updated "How it Works"
