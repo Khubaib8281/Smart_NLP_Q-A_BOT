@@ -17,24 +17,25 @@ st.set_page_config(page_title="Smart Document Q&A Assistant", page_icon="📄", 
 # ────────────────────────
 # ✨ Custom CSS Styling
 # ────────────────────────
-# Style fixes
 st.markdown("""
 <style>
 /* Global Styles */
-body {
+html, body, [class*="css"] {
     background-color: #f2f6fc;
     font-family: 'Segoe UI', sans-serif;
 }
 
-/* Center the app title */
-h1 {
+/* Streamlit title override */
+.title-style {
+    font-size: 2.5rem;
+    font-weight: 700;
     color: #1f4e79;
     text-align: center;
-    padding-top: 1rem;
+    margin-bottom: 1rem;
 }
 
 /* File uploader styling */
-.css-1cpxqw2 {
+section[data-testid="stFileUploader"] > div {
     border: 2px dashed #4682b4;
     background-color: #eaf4ff;
     border-radius: 10px;
@@ -42,11 +43,11 @@ h1 {
     transition: 0.3s ease-in-out;
 }
 
-.css-1cpxqw2:hover {
+section[data-testid="stFileUploader"] > div:hover {
     background-color: #d4eaff;
 }
 
-/* Text input styling */
+/* Input box */
 input[type="text"] {
     border: 1px solid #4682b4;
     border-radius: 5px;
@@ -64,46 +65,46 @@ input[type="text"] {
     border-radius: 10px;
 }
 
-/* Spinner loading color */
-.css-1y4p8pa {
-    color: #4682b4 !important;
+/* Expander content */
+[data-testid="stExpander"] div[role="button"] {
+    background-color: #1f4e79;
+    color: white;
+    border-radius: 8px;
+    font-weight: bold;
 }
 
-/* "How it Works" Section */
-.how-it-works-section {
+[data-testid="stExpander"] .streamlit-expanderContent {
     background-color: #ffffff;
-    padding: 2rem;
-    border-radius: 10px;
-    margin-top: 2rem;
-    border-left: 5px solid #1f4e79;
-    box-shadow: 0 4px 12px rgba(0,0,0,0.05);
-}
-
-.how-it-works-section h3 {
-    color: #1f4e79;
-    font-size: 22px;
-    margin-bottom: 1rem;
-}
-
-.how-it-works-section p {
     color: #333333;
-    line-height: 1.6;
-    font-size: 16px;
-    margin-bottom: 0.5rem;
+    border-left: 4px solid #1f4e79;
+    padding: 1rem;
+}
+
+/* Footer */
+.footer {
+    margin-top: 4rem;
+    text-align: center;
+    font-size: 14px;
+    color: #666;
 }
 </style>
 """, unsafe_allow_html=True)
 
-# Updated "How it Works"
+# ────────────────────────
+# 📌 TITLE & HEADER
+# ────────────────────────
+st.markdown("<div class='title-style'>📄 Smart Document Q&A Assistant</div>", unsafe_allow_html=True)
+st.write("Upload your document and ask questions about its content.")
+
+# ────────────────────────
+# ℹ️ How it Works
+# ────────────────────────
 with st.expander("ℹ️ How It Works"):
     st.markdown("""
-    <div class='how-it-works'>
-        1. Upload your document (TXT, PDF, DOCX).<br>
-        2. It is split into chunks and converted into smart vectors.<br>
-        3. Ask any question — we fetch the most relevant content chunks.<br>
-    </div>
-    """, unsafe_allow_html=True)
-
+    1. **Upload your document** (`.txt`, `.pdf`, `.docx`)  
+    2. It gets converted into text, split into smart chunks  
+    3. **Ask your question** → AI finds the best answers from context  
+    """)
 
 # ────────────────────────
 # 📤 File Upload
@@ -145,7 +146,7 @@ if uploaded_file:
 # 📌 Footer
 # ────────────────────────
 st.markdown("""
-    <div class='footer'>
-        &copy; 2025 • Built with ❤️ by <strong>Khubaib</strong> | Smart NLP Q&A Bot
-    </div>
+<div class='footer'>
+    &copy; 2025 • Built with ❤️ by <strong>Khubaib</strong> | Smart NLP Q&A Bot
+</div>
 """, unsafe_allow_html=True)
