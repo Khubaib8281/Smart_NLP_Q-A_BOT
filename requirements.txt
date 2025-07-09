@@ -1,4 +1,6 @@
 python-docx
+streamlit-lottie
+requests
 streamlit
 sentence-transformers
 faiss-cpu
