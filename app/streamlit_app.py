@@ -95,7 +95,7 @@ if uploaded_file:
 
     if submit_btn and user_question:
         with st.spinner("💬 Generating answer..."):
-            top_chunks = get_best_chunk(user_question, chunks, index, k=3)
+            top_chunks = get_best_chunk(user_question, chunks, index)
             answer = generate_answer_from_chunks(top_chunks, user_question)
 
         st.markdown("### 📚 Answer")
