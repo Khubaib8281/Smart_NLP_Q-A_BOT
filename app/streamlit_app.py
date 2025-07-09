@@ -17,6 +17,7 @@ st.set_page_config(page_title="Smart Document Q&A Assistant", page_icon="📄", 
 # ────────────────────────
 # ✨ Custom CSS Styling
 # ────────────────────────
+# Style fixes
 st.markdown("""
     <style>
         html, body {
@@ -45,32 +46,28 @@ st.markdown("""
             border-top: 1px solid #e6e6e6;
         }
         .how-it-works {
-            background-color: #ffffff;
+            background-color: #e9eff6;
             padding: 1.5rem;
-            border-radius: 8px;
-            border: 1px solid #e6e6e6;
-            margin-bottom: 2rem;
+            border-radius: 10px;
+            border: 1px solid #d0d9e0;
+            color: #333;
+            font-size: 0.95rem;
+            line-height: 1.6;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.05);
         }
     </style>
 """, unsafe_allow_html=True)
 
-# ────────────────────────
-# 🚀 Title + Intro
-# ────────────────────────
-st.title("📄 Smart Document Q&A Assistant")
-st.caption("Upload a `.txt`, `.pdf`, or `.docx` file, and ask anything about its content. Built with 💙 by Khubaib.")
-
-# ────────────────────────
-# 🔎 How it Works Section
-# ────────────────────────
+# Updated "How it Works"
 with st.expander("ℹ️ How It Works"):
     st.markdown("""
     <div class='how-it-works'>
-    1. Upload your document (txt, PDF, or Word).  
-    2. We split and embed the content for intelligent searching.  
-    3. Ask any question — we fetch the most relevant parts and answer it using Gemini AI.  
+        1. Upload your document (TXT, PDF, DOCX).<br>
+        2. It is split into chunks and converted into smart vectors.<br>
+        3. Ask any question — we fetch the most relevant content chunks.<br>
     </div>
     """, unsafe_allow_html=True)
+
 
 # ────────────────────────
 # 📤 File Upload
