@@ -93,7 +93,7 @@ input[type="text"] {
 # ────────────────────────
 # 📌 TITLE & HEADER
 # ────────────────────────
-st.markdown("<div class='title-style'>📄 Smart Document Q&A Assistant</div>", unsafe_allow_html=True)
+st.markdown("<div class='title-style'>📝 AskMyDoc</div>", unsafe_allow_html=True)
 st.write("Upload your document and ask questions about its content.")
 
 # ────────────────────────
