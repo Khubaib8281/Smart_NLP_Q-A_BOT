@@ -27,9 +27,9 @@ html, body, [class*="css"] {
 
 /* Streamlit title override */
 .title-style {
-    font-size: 2.5rem;
+    font-size: 2.8rem;
     font-weight: 700;
-    color: #1f4e79;
+    color: ##ECF0F1;
     text-align: center;
     margin-bottom: 1rem;
 }
