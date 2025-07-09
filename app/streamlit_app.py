@@ -2,7 +2,7 @@ import streamlit as st
 import os
 import sys
 
-# Local script imports
+# Adjust path for module imports
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
 from scripts.parser import extract_text_from_file
 from scripts.chunker import chunk_text
@@ -11,73 +11,83 @@ from scripts.vector_store import build_faiss_index
 from scripts.question_answer import get_best_chunk
 from scripts.gemini_api import generate_answer_from_chunks
 
-# ---------- PAGE SETUP ----------
+# ──────────────────────────────────────────────────────────────
+# 🎨 Page Config
+# ──────────────────────────────────────────────────────────────
 st.set_page_config(
-    page_title="Smart NLP Q&A Bot",
-    page_icon="🤖",
+    page_title="Smart Document Q&A Assistant",
+    page_icon="📄",
     layout="wide"
 )
 
-# ---------- CUSTOM CSS ----------
+# 🔧 Custom Styling
 st.markdown("""
     <style>
-        .main {
-            background-color: #f7f7f7;
+        html, body, [class*="css"]  {
+            font-family: 'Segoe UI', sans-serif;
+            background-color: #f8f9fa;
+        }
+        h1 {
+            color: #333;
         }
         .stTextInput>div>div>input {
-            background-color: #fff !important;
+            padding: 10px;
+            border-radius: 6px;
+            border: 1px solid #ccc;
         }
         .stFileUploader>div>div {
-            background-color: #fff !important;
+            border-radius: 6px;
+            background-color: #fff;
         }
         .stButton>button {
-            border-radius: 8px;
-            padding: 0.5rem 1rem;
-            background-color: #4CAF50;
+            border-radius: 6px;
+            background-color: #0066cc;
             color: white;
+            padding: 0.6rem 1.2rem;
             font-weight: 600;
+            transition: background-color 0.2s ease;
         }
         .stButton>button:hover {
-            background-color: #45a049;
-        }
-        .css-18e3th9 {
-            padding-top: 2rem;
+            background-color: #004999;
         }
     </style>
 """, unsafe_allow_html=True)
 
-# ---------- HEADER ----------
-st.title("🤖 Smart NLP Document Q&A Bot")
-st.markdown("Upload a `.pdf`, `.docx`, or `.txt` file and ask questions about its contents using natural language. Powered by Google Gemini API.")
+# ──────────────────────────────────────────────────────────────
+# 🚀 Header
+# ──────────────────────────────────────────────────────────────
+st.title("📄 Smart Document Q&A Assistant")
+st.caption("Upload a `.txt`, `.pdf`, or `.docx` document, then ask anything based on its contents. Powered by Google Gemini AI.")
 
-# ---------- FILE UPLOAD ----------
-uploaded_file = st.file_uploader("📄 Upload your document", type=["txt", "pdf", "docx"])
+# ──────────────────────────────────────────────────────────────
+# 📤 File Upload
+# ──────────────────────────────────────────────────────────────
+uploaded_file = st.file_uploader("Select a document", type=["txt", "pdf", "docx"])
 
 if uploaded_file:
-    st.info("📤 File uploaded successfully! Processing...")
+    with st.spinner("🔍 Extracting and processing document..."):
+        text = extract_text_from_file(uploaded_file)
+        chunks = chunk_text(text)
 
-    # Read and process the file
-    text = extract_text_from_file(uploaded_file)
-    chunks = chunk_text(text)
+        if len(chunks) < 2:
+            st.error("❗ The document is too short for Q&A. Please upload a more detailed file.")
+            st.stop()
 
-    if len(chunks) < 2:
-        st.warning("⚠️ The document is too short for meaningful Q&A.")
-        st.stop()
-
-    with st.spinner("🔍 Creating embeddings and building index..."):
         embeddings = embed_text(chunks)
         index = build_faiss_index(embeddings)
 
-    st.success("✅ Document processed. Ready for questions!")
+    st.success("✅ Document processed successfully.")
 
-    # ---------- USER QUESTION ----------
-    st.markdown("### ❓ Ask a Question")
-    user_question = st.text_input("Type your question below:")
+    # ──────────────────────────────────────────────────────────────
+    # 🧠 Q&A Interaction
+    # ──────────────────────────────────────────────────────────────
+    st.subheader("💬 Ask a Question")
+    user_question = st.text_input("Type your question here...")
 
     if user_question:
-        with st.spinner("💬 Generating answer..."):
+        with st.spinner("🧠 Thinking..."):
             top_chunks = get_best_chunk(user_question, chunks, index)
             answer = generate_answer_from_chunks(top_chunks, user_question)
 
-        st.markdown("### 📚 Answer")
-        st.success(answer)
+        st.markdown("### 📝 Answer")
+        st.info(answer)
