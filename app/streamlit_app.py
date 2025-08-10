@@ -15,52 +15,51 @@ from scripts.gemini_api import generate_answer_from_chunks
 st.set_page_config(page_title="Smart Document Q&A Assistant", page_icon="📄", layout="centered")
 
 # ────────────────────────
-# ✨ Light Theme CSS Styling
+# ✨ Custom CSS Styling
 # ────────────────────────
 st.markdown("""
 <style>
 /* Global Styles */
 html, body, [class*="css"] {
-    background-color: #ffffff;
+    background-color: #f2f6fc;
     font-family: 'Segoe UI', sans-serif;
-    color: #333333;
 }
 
 /* Streamlit title override */
 .title-style {
     font-size: 2.8rem;
     font-weight: 700;
-    color: #2c3e50;
+    color: ##ECF0F1;
     text-align: center;
     margin-bottom: 1rem;
 }
 
 /* File uploader styling */
 section[data-testid="stFileUploader"] > div {
-    border: 2px dashed #c0c0c0;
-    background-color: #fafafa;
+    border: 2px dashed #4682b4;
+    background-color: #eaf4ff;
     border-radius: 10px;
     padding: 1.5rem;
     transition: 0.3s ease-in-out;
 }
 
 section[data-testid="stFileUploader"] > div:hover {
-    background-color: #f0f0f0;
+    background-color: #d4eaff;
 }
 
 /* Input box */
 input[type="text"] {
-    border: 1px solid #cccccc;
+    border: 1px solid #4682b4;
     border-radius: 5px;
     padding: 0.5rem;
 }
 
 /* Answer box */
 .stSuccess {
-    background-color: #f6fff9;
-    color: #1d5e3b;
+    background-color: #e0f3ec;
+    color: #1e4633;
     font-weight: 500;
-    border-left: 5px solid #27ae60;
+    border-left: 5px solid #2e8b57;
     padding: 1rem;
     margin-top: 1rem;
     border-radius: 10px;
@@ -68,8 +67,8 @@ input[type="text"] {
 
 /* Expander content */
 [data-testid="stExpander"] div[role="button"] {
-    background-color: #f2f2f2;
-    color: #333333;
+    background-color: #1f4e79;
+    color: white;
     border-radius: 8px;
     font-weight: bold;
 }
@@ -77,7 +76,7 @@ input[type="text"] {
 [data-testid="stExpander"] .streamlit-expanderContent {
     background-color: #ffffff;
     color: #333333;
-    border-left: 4px solid #cccccc;
+    border-left: 4px solid #1f4e79;
     padding: 1rem;
 }
 
@@ -86,7 +85,7 @@ input[type="text"] {
     margin-top: 4rem;
     text-align: center;
     font-size: 14px;
-    color: #888888;
+    color: #666;
 }
 </style>
 """, unsafe_allow_html=True)
@@ -97,7 +96,9 @@ input[type="text"] {
 st.markdown("<div class='title-style'>📝 AskMyDoc</div>", unsafe_allow_html=True)
 st.write("Upload your document and ask questions about its content.")
 
+# ────────────────────────
 # ℹ️ How it Works
+# ────────────────────────
 with st.expander("ℹ️ How It Works"):
     st.markdown("""
     1. **Upload your document** (`.txt`, `.pdf`, `.docx`)  
@@ -105,7 +106,9 @@ with st.expander("ℹ️ How It Works"):
     3. **Ask your question** → AI finds the best answers from context  
     """)
 
+# ────────────────────────
 # 📤 File Upload
+# ────────────────────────
 uploaded_file = st.file_uploader("📁 Upload your file", type=["txt", "pdf", "docx"])
 
 # Initialize document processing
@@ -123,7 +126,9 @@ if uploaded_file:
 
     st.success("✅ Document processed successfully!")
 
+    # ────────────────────────
     # ❓ Q&A Section
+    # ────────────────────────
     st.subheader("💬 Ask a Question")
     user_question = st.text_input("Enter your question here")
 
@@ -137,7 +142,9 @@ if uploaded_file:
             st.markdown("### 📚 Answer")
             st.success(answer)
 
+# ────────────────────────
 # 📌 Footer
+# ────────────────────────
 st.markdown("""
 <div class='footer'>
     &copy; 2025 • Built with ❤️ by <strong>Khubaib</strong> | Smart NLP Q&A Bot
