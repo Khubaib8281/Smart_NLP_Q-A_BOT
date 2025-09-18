@@ -66,15 +66,3 @@ def extract_text_from_file(uploaded_file):
         return text, "Document is too short. Please upload a file with more content."
     else:
         return text, "Document processed successfully."
-
-# Example of how to use this in a Streamlit app
-st.title("Document Text Extractor")
-
-uploaded_file = st.file_uploader("Upload a file", type=['txt', 'docx', 'pdf'])
-
-if uploaded_file:
-    extracted_text, message = extract_text_from_file(uploaded_file)
-    st.write(f"**Status:** {message}")
-    if extracted_text:
-        st.subheader("Extracted Text")
-        st.text_area("File Content", extracted_text, height=300)
