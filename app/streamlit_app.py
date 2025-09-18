@@ -112,13 +112,31 @@ with st.expander("ℹ️ How It Works"):
 uploaded_file = st.file_uploader("📁 Upload your file", type=["txt", "pdf", "docx"])
 
 # Initialize document processing
+# if uploaded_file:
+#     with st.spinner("🔍 Processing document..."):
+#         text = extract_text_from_file(uploaded_file)
+#         chunks = chunk_text(text)
+
+#         if len(chunks) < 2:
+#             st.error("⚠️ The document is too short for answering questions.")
 if uploaded_file:
     with st.spinner("🔍 Processing document..."):
-        text = extract_text_from_file(uploaded_file)
-        chunks = chunk_text(text)
-
-        if len(chunks) < 2:
-            st.error("⚠️ The document is too short for answering questions.")
+        # Unpack the tuple to get the extracted text and the message
+        extracted_text, message = extract_text_from_file(uploaded_file)
+        
+        # Check if text was successfully extracted before chunking
+        if extracted_text:
+            chunks = chunk_text(extracted_text)
+            
+            if len(chunks) < 2:
+                st.error("⚠️ The document is too short for answering questions. Please upload a longer document.")
+            else:
+                st.success(message)
+                # Display the extracted text and process chunks as needed
+                # ...
+        else:
+            # Handle cases where no text was extracted (e.g., unsupported file type)
+            st.error(message)
             st.stop()
 
         embeddings = embed_text(chunks)
