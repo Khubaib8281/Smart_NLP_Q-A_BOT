@@ -1,68 +1,31 @@
-# from io import BytesIO
-# from docx import Document
-# from PyPDF2 import PdfReader
-# import os
-
-# def extract_text_from_file(uploaded_file):
-#     if not uploaded_file or not hasattr(uploaded_file, 'read'):
-#         raise ValueError("Invalid file uploaded.")
-
-#     file_bytes = uploaded_file.read()
-#     buffer = BytesIO(file_bytes)
-#     ext = os.path.splitext(uploaded_file.name)[1].lower()
-
-#     if ext == '.txt':
-#         return file_bytes.decode('utf-8', errors='ignore')
-
-#     elif ext == '.docx':
-#         doc = Document(buffer)
-#         return '\n'.join([p.text for p in doc.paragraphs])
-
-#     elif ext == '.pdf':
-#         reader = PdfReader(buffer)
-#         text = ''
-#         for page in reader.pages:
-#             content = page.extract_text()
-#             if content:
-#                 text += content + '\n'
-#         return text
-
-#     else:
-#         raise ValueError("Unsupported file type. Please upload .txt, .docx, or .pdf")
-
-
-
-
 from io import BytesIO
 from docx import Document
 from PyPDF2 import PdfReader
 import os
-import streamlit as st
 
 def extract_text_from_file(uploaded_file):
     if not uploaded_file or not hasattr(uploaded_file, 'read'):
-        return None, "Invalid file uploaded."
+        raise ValueError("Invalid file uploaded.")
 
     file_bytes = uploaded_file.read()
     buffer = BytesIO(file_bytes)
     ext = os.path.splitext(uploaded_file.name)[1].lower()
-    text = ""
 
     if ext == '.txt':
-        text = file_bytes.decode('utf-8', errors='ignore')
+        return file_bytes.decode('utf-8', errors='ignore')
+
     elif ext == '.docx':
         doc = Document(buffer)
-        text = '\n'.join([p.text for p in doc.paragraphs])
+        return '\n'.join([p.text for p in doc.paragraphs])
+
     elif ext == '.pdf':
         reader = PdfReader(buffer)
+        text = ''
         for page in reader.pages:
             content = page.extract_text()
             if content:
                 text += content + '\n'
-    else:
-        return None, "Unsupported file type. Please upload .txt, .docx, or .pdf"
+        return text
 
-    if len(text) < 200:
-        return text, "Document is too short. Please upload a file with more content."
     else:
-        return text, "Document processed successfully."
+        raise ValueError("Unsupported file type. Please upload .txt, .docx, or .pdf")
