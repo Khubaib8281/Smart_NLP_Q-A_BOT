@@ -29,7 +29,6 @@
 
 #     else:
 #         raise ValueError("Unsupported file type. Please upload .txt, .docx, or .pdf")
-
 import os
 from io import BytesIO
 from docx import Document
@@ -38,7 +37,11 @@ from zipfile import BadZipFile
 
 def extract_text_from_file(uploaded_dict):
     """
-    Extracts text from a single uploaded file dictionary and cleans it.
+    Extracts text from a single uploaded file dictionary and performs robust cleaning.
+
+    This version is designed to handle common formatting issues like extra
+    line breaks and empty paragraphs, ensuring a clean output for the
+    chunking process.
 
     Args:
         uploaded_dict (dict): A dictionary from a Streamlit file_uploader
@@ -64,9 +67,20 @@ def extract_text_from_file(uploaded_dict):
 
     elif ext == '.docx':
         try:
+            # Use BytesIO to handle the file in memory without saving to disk
             doc = Document(BytesIO(content))
-            # The paragraphs include empty lines, which we will handle below
-            text = '\n'.join([p.text for p in doc.paragraphs])
+            
+            # --- Aggressive Text Cleaning Logic ---
+            # We now build a list of non-empty, stripped paragraphs directly
+            cleaned_paragraphs = []
+            for p in doc.paragraphs:
+                stripped_text = p.text.strip()
+                if stripped_text:
+                    cleaned_paragraphs.append(stripped_text)
+            
+            # Join the cleaned paragraphs with a single newline
+            text = '\n'.join(cleaned_paragraphs)
+
         except BadZipFile as e:
             # This handles the specific case of a corrupted DOCX file
             error_message = f"Error: The uploaded Word document appears to be corrupted and cannot be read. Details: {e}"
@@ -87,16 +101,9 @@ def extract_text_from_file(uploaded_dict):
     else:
         error_message = "Error: Unsupported file type. Please upload a .txt, .docx, or .pdf file."
 
-    # --- Text Cleaning Logic ---
-    if not error_message:
-        cleaned_lines = []
-        for line in text.split('\n'):
-            stripped_line = line.strip()
-            if stripped_line:
-                cleaned_lines.append(stripped_line)
-        cleaned_text = '\n'.join(cleaned_lines)
-        return (cleaned_text, "")
-    else:
-        # If there's an error, return an empty text and the error message
+    # Return the cleaned text or the error message
+    if error_message:
         return ("", error_message)
+    else:
+        return (text, "")
    
