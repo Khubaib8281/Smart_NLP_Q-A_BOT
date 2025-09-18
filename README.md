@@ -7,7 +7,6 @@ Upload PDFs, lecture notes, research papers, or any text-based file — AskMyDoc
 
 ## 🚀 Features
 
-- 📂 **Multi-Document Support** — Upload multiple files and search across all of them.
 - 🔍 **Context-Aware Q&A** — Answers are grounded in your actual documents, not random internet text.
 - 📌 **Source References** — Get page numbers and highlighted text for every answer.
 - ⚡ **Blazing Fast** — Optimized chunking & vector search for speed.
@@ -20,7 +19,7 @@ Upload PDFs, lecture notes, research papers, or any text-based file — AskMyDoc
 ## 🎯 Use Cases
 
 - **Students** — Upload lecture notes & ask questions while studying.
-- **Researchers** — Search through multiple research papers at once.
+- **Researchers** — Search through research papers.
 - **Lawyers** — Quickly find clauses and case references.
 - **Writers & Analysts** — Summarize and extract key insights instantly.
 
@@ -60,7 +59,7 @@ Upload PDFs, lecture notes, research papers, or any text-based file — AskMyDoc
 4. **Set environment variables**
    - Create a `.env` file:
      ```
-     OPENAI_API_KEY=your_api_key_here
+     GEMINI_API_KEY=your_api_key_here
      ```
 
 5. **Run the app**
