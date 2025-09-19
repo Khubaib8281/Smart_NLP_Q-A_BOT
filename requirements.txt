@@ -13,4 +13,7 @@ PyPDF2
 google-generativeai
 numpy
 docx
+langchain
+langchain-community
+unstructured
 
