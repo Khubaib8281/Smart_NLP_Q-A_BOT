@@ -2,15 +2,15 @@ import os
 import re
 import tempfile
 import sys  
-import exception  
 import pdfplumber
 from PyPDF2 import PdfReader
 from langchain_community.document_loaders import UnstructuredFileLoader
 from pdf2image import convert_from_path
 import pytesseract  
 from langchain.text_splitter import RecursiveCharacterTextSplitter
-import docx
 from docx import Document
+import logging
+logger = logging.getLogger(__name__)
 import docx2txt   
 
    
@@ -81,6 +81,7 @@ def extract_text_from_file(uploaded_file) -> tuple[str, str]:
     Handles both Streamlit UploadedFile and local file paths.
     Returns (extracted_text, message)
     """
+   try:
     # If it's a Streamlit UploadedFile (file-like object)
     if hasattr(uploaded_file, "name") and not isinstance(uploaded_file, str):
         # Get extension from uploaded file name
@@ -118,7 +119,16 @@ def extract_text_from_file(uploaded_file) -> tuple[str, str]:
             text = extractor(file_path)
             if len(text) > 200:  # sanity check
                 return text, f"Extracted using {name}, length={len(text)}"
+            else:
+               logger.debug("%s returned short chunk (len=%s)", name, len(text))
         except Exception as e:
-            print(f"[WARN] {name} failed: {e}")
+            logger.exception("Extractor %s failed: %s", name, e)
 
     return "", f"⚠️ Could not extract text from {uploaded_file.name if hasattr(uploaded_file,'name') else file_path}"
+finally:
+   if temp_created and file_path and os.path.exists(file_path):
+      try:
+         os.remove(file_path)
+      except Exception:
+         logger.Exception("Failed to remove temp file %s", file_path)
+   
