@@ -117,7 +117,7 @@ def extract_text_from_file(uploaded_file) -> tuple[str, str]:
         try:
             text = extractor(file_path)
             if len(text) > 200:  # sanity check
-                return text, f"✅ Extracted using {name}, length={len(text)}"
+                return text, f"Extracted using {name}, length={len(text)}"
         except Exception as e:
             print(f"[WARN] {name} failed: {e}")
 
