@@ -1,11 +1,16 @@
+exception
 python-docx
 streamlit-lottie
 requests
+pytesseract
+pdfplumber
+pdf2image
+docx2txt
 streamlit
 sentence-transformers
 faiss-cpu
 PyPDF2
 google-generativeai
-pandas
 numpy
 docx
+
