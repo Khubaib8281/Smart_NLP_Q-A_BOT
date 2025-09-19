@@ -101,7 +101,7 @@ st.write("Upload your document and ask questions about its content.")
 # ────────────────────────
 with st.expander("ℹ️ How It Works"):
     st.markdown("""
-    1. **Upload your document** (`.txt`, `.pdf`, `.docx`)  
+    1. **Upload your document** (`.pdf`, `.docx`)  
     2. It gets converted into text, split into smart chunks  
     3. **Ask your question** → AI finds the best answers from context  
     """)
@@ -109,7 +109,7 @@ with st.expander("ℹ️ How It Works"):
 # ────────────────────────
 # 📤 File Upload
 # ────────────────────────
-uploaded_file = st.file_uploader("📁 Upload your file", type=["txt", "pdf", "docx"])
+uploaded_file = st.file_uploader("📁 Upload your file", type=["pdf", "docx"])
 
 if uploaded_file:
     with st.spinner("🔍 Processing document..."):
