@@ -156,6 +156,6 @@ if uploaded_file:
 # ────────────────────────
 st.markdown("""
 <div class='footer'>
-    &copy; 2025 • Developed by <strong>Khubaib</strong> | AskMyDoc
+    &copy; 2025 • Developed by <strong>Muhammad Khubaib Ahmad</strong> | AskMyDoc
 </div>
 """, unsafe_allow_html=True)
