@@ -111,9 +111,26 @@ def extract_with_docx2txt(file_path: str) -> str:
 # ------------------------
 # 4. Dispatcher
 # ------------------------
-def extract_text_from_file(file_path: str) -> str:
-    ext = os.path.splitext(file_path)[1].lower()
+def extract_text_from_file(uploaded_file) -> tuple[str, str]:
+    """
+    Handles both Streamlit UploadedFile and local file paths.
+    Returns (extracted_text, message)
+    """
+    # If it's a Streamlit UploadedFile (file-like object)
+    if hasattr(uploaded_file, "name") and not isinstance(uploaded_file, str):
+        # Get extension from uploaded file name
+        ext = os.path.splitext(uploaded_file.name)[1].lower()
 
+        # Save to temp file so extractors can read it
+        with tempfile.NamedTemporaryFile(delete=False, suffix=ext) as tmp:
+            tmp.write(uploaded_file.getbuffer())
+            file_path = tmp.name
+    else:
+        # Already a real file path
+        file_path = uploaded_file
+        ext = os.path.splitext(file_path)[1].lower()
+
+    # Select extractors based on extension
     if ext == ".pdf":
         extractors = [
             ("pdfplumber", extract_with_pdfplumber),
@@ -128,15 +145,15 @@ def extract_text_from_file(file_path: str) -> str:
             ("unstructured", extract_with_unstructured),
         ]
     else:
-        raise ValueError(f"Unsupported file type: {ext}")
+        return "", f"❌ Unsupported file type: {ext}"
 
+    # Try extractors in order
     for name, extractor in extractors:
         try:
             text = extractor(file_path)
             if len(text) > 200:  # sanity check
-                print(f"[INFO] Extracted using {name}, length={len(text)}")
-                return text
+                return text, f"✅ Extracted using {name}, length={len(text)}"
         except Exception as e:
             print(f"[WARN] {name} failed: {e}")
 
-    return ""
+    return "", f"⚠️ Could not extract text from {uploaded_file.name if hasattr(uploaded_file,'name') else file_path}"
