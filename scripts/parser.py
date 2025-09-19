@@ -111,7 +111,7 @@ def extract_with_docx2txt(file_path: str) -> str:
 # ------------------------
 # 4. Dispatcher
 # ------------------------
-def extract_text(file_path: str) -> str:
+def extract_text_from_file(file_path: str) -> str:
     ext = os.path.splitext(file_path)[1].lower()
 
     if ext == ".pdf":
