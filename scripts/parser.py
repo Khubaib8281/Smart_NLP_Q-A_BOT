@@ -83,52 +83,52 @@ def extract_text_from_file(uploaded_file) -> tuple[str, str]:
     """
    try:
     # If it's a Streamlit UploadedFile (file-like object)
-    if hasattr(uploaded_file, "name") and not isinstance(uploaded_file, str):
-        # Get extension from uploaded file name
-        ext = os.path.splitext(uploaded_file.name)[1].lower()
-
-        # Save to temp file so extractors can read it
-        with tempfile.NamedTemporaryFile(delete=False, suffix=ext) as tmp:
-            tmp.write(uploaded_file.getbuffer())
-            file_path = tmp.name
-    else:
-        # Already a real file path
-        file_path = uploaded_file
-        ext = os.path.splitext(file_path)[1].lower()
-
-    # Select extractors based on extension
-    if ext == ".pdf":
-        extractors = [
-            ("pdfplumber", extract_with_pdfplumber),
-            ("pypdf", extract_with_pypdf),
-            ("unstructured", extract_with_unstructured),
-            ("ocr", extract_with_ocr),
-        ]
-    elif ext == ".docx":
-        extractors = [
-            ("python-docx", extract_with_docx),
-            ("docx2txt", extract_with_docx2txt),
-            ("unstructured", extract_with_unstructured),
-        ]
-    else:
-        return "", f"❌ Unsupported file type: {ext}"
-
-    # Try extractors in order
-    for name, extractor in extractors:
-        try:
-            text = extractor(file_path)
-            if len(text) > 200:  # sanity check
-                return text, f"Extracted using {name}, length={len(text)}"
-            else:
-               logger.debug("%s returned short chunk (len=%s)", name, len(text))
-        except Exception as e:
-            logger.exception("Extractor %s failed: %s", name, e)
-
-    return "", f"⚠️ Could not extract text from {uploaded_file.name if hasattr(uploaded_file,'name') else file_path}"
-finally:
-   if temp_created and file_path and os.path.exists(file_path):
-      try:
-         os.remove(file_path)
-      except Exception:
-         logger.Exception("Failed to remove temp file %s", file_path)
+      if hasattr(uploaded_file, "name") and not isinstance(uploaded_file, str):
+           # Get extension from uploaded file name
+           ext = os.path.splitext(uploaded_file.name)[1].lower()
    
+           # Save to temp file so extractors can read it
+           with tempfile.NamedTemporaryFile(delete=False, suffix=ext) as tmp:
+               tmp.write(uploaded_file.getbuffer())
+               file_path = tmp.name
+       else:
+           # Already a real file path
+           file_path = uploaded_file
+           ext = os.path.splitext(file_path)[1].lower()
+   
+       # Select extractors based on extension
+       if ext == ".pdf":
+           extractors = [
+               ("pdfplumber", extract_with_pdfplumber),
+               ("pypdf", extract_with_pypdf),
+               ("unstructured", extract_with_unstructured),
+               ("ocr", extract_with_ocr),
+           ]
+       elif ext == ".docx":
+           extractors = [
+               ("python-docx", extract_with_docx),
+               ("docx2txt", extract_with_docx2txt),
+               ("unstructured", extract_with_unstructured),
+           ]
+       else:
+           return "", f"❌ Unsupported file type: {ext}"
+   
+       # Try extractors in order
+       for name, extractor in extractors:
+           try:
+               text = extractor(file_path)
+               if len(text) > 200:  # sanity check
+                   return text, f"Extracted using {name}, length={len(text)}"
+               else:
+                  logger.debug("%s returned short chunk (len=%s)", name, len(text))
+           except Exception as e:
+               logger.exception("Extractor %s failed: %s", name, e)
+   
+       return "", f"⚠️ Could not extract text from {uploaded_file.name if hasattr(uploaded_file,'name') else file_path}"
+   finally:
+      if temp_created and file_path and os.path.exists(file_path):
+         try:
+            os.remove(file_path)
+         except Exception:
+            logger.Exception("Failed to remove temp file %s", file_path)
+      
