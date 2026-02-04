@@ -3,7 +3,7 @@ def generate_answer_from_chunks(chunks, question):
     import google.generativeai as genai
 
     genai.configure(api_key = os.getenv("GEMINI_API_KEY"))
-    gemini_model = genai.GenerativeModel("gemini-2.0-flash")
+    gemini_model = genai.GenerativeModel("gemini-2.5-flash")
     context = "\n\n".join(chunks)
     prompt = f"""
     You are a document question-answering assistant. 
